@@ -37,10 +37,15 @@ export class OcrApi {
     }
     const data = await res.json();
     const cleaned_text = data.cleaned_text || data.cleanedText || data.text || text;
-    const structured = data.structured || data.json || data.data || null;
+    
+    // Correction ajoutée ici : on vérifie data.result en priorité
+    const structured = data.result || data.structured || data.json || data.data || null;
+    
     return { cleaned_text, structured };
   }
 
+  // Cette méthode est gardée au cas où tu en aurais besoin ailleurs, 
+  // mais main.js utilise maintenant les deux méthodes ci-dessus séparément.
   async process(file) {
     const { text } = await this.uploadImage(file);
     try {
@@ -51,4 +56,3 @@ export class OcrApi {
     }
   }
 }
-

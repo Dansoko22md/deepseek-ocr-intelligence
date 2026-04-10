@@ -76,12 +76,17 @@ h1 {
 }
 .preview-empty-icon svg { width: 18px; height: 18px; stroke: #666; }
 .preview-empty-label { font-size: 13px; color: #666; font-family: 'Georgia', serif; }
-.preview-img { width: 100%; height: 100%; object-fit: contain; max-height: 280px; padding: 12px; }
+
+.preview-img { 
+  width: 100%; height: 100%; object-fit: contain; max-height: 280px; padding: 12px; 
+  transition: opacity 0.4s ease, filter 0.4s ease;
+}
 .preview-tag {
   position: absolute; top: 10px; left: 10px;
   background: #F5E642; color: #1a1a1a;
   font-size: 10px; font-weight: 700; letter-spacing: .6px; text-transform: uppercase;
   padding: 3px 8px; border-radius: 6px;
+  z-index: 5;
 }
 
 /* Buttons */
@@ -167,4 +172,115 @@ h1 {
 @media (max-width: 640px) {
   .top-row, .results-grid { grid-template-columns: 1fr; }
   h1 { font-size: 26px; }
+}
+
+
+/* =========================================
+   ANIMATION SCANNER (EXPERT DESIGN)
+   ========================================= */
+
+/* Effets sur la boite principale quand le scan est actif */
+.preview-box.is-processing {
+  border-color: #F5E642;
+  box-shadow: 0 0 25px rgba(245, 230, 66, 0.15);
+  transition: all 0.3s ease;
+}
+
+/* Assombrir un peu l'image pour faire ressortir le laser */
+.preview-img.dimmed {
+  opacity: 0.6;
+  filter: grayscale(30%) contrast(1.2);
+}
+
+/* Conteneur global du scanner (masque ce qui dépasse) */
+.scanner-ui {
+  position: absolute;
+  inset: 0; /* Prend tout l'espace de la preview-box */
+  border-radius: 14px;
+  overflow: hidden;
+  pointer-events: none; /* Laisse les clics passer au travers si besoin */
+  z-index: 10;
+}
+
+/* Grille de fond de type "analyse technologique" */
+.scanner-grid {
+  position: absolute;
+  inset: 0;
+  background-size: 30px 30px;
+  background-image: 
+    linear-gradient(to right, rgba(245, 230, 66, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(245, 230, 66, 0.05) 1px, transparent 1px);
+  animation: fade-grid 1.5s infinite alternate;
+}
+
+/* Faisceau laser et son dégradé (traînée lumineuse) */
+.scanner-beam {
+  position: absolute;
+  top: 0; 
+  left: 0; 
+  right: 0;
+  height: 120px; /* Longueur de la traînée du scanner */
+  background: linear-gradient(to bottom, rgba(245, 230, 66, 0.5) 0%, transparent 100%);
+  border-top: 2px solid #F5E642;
+  box-shadow: 0 -3px 15px rgba(245, 230, 66, 0.7);
+  /* L'animation utilise ease-in-out pour ralentir un peu aux bords */
+  animation: scan-sweep 2.5s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+/* Badge indicateur d'état flottant */
+.scanning-badge {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(26, 26, 26, 0.9);
+  color: #F5E642;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1px solid rgba(245, 230, 66, 0.4);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  backdrop-filter: blur(4px);
+  animation: float-badge 2s ease-in-out infinite;
+}
+
+/* Petit point clignotant rouge/jaune dans le badge */
+.scanning-dot {
+  width: 8px;
+  height: 8px;
+  background: #F5E642;
+  border-radius: 50%;
+  animation: blink-dot 1s linear infinite;
+}
+
+/* --- KEYFRAMES --- */
+
+/* Mouvement vertical de haut en bas du laser */
+@keyframes scan-sweep {
+  0% { top: -120px; }
+  100% { top: 100%; }
+}
+
+/* Flottement de la pastille de texte */
+@keyframes float-badge {
+  0%, 100% { transform: translate(-50%, 0); }
+  50% { transform: translate(-50%, -6px); }
+}
+
+/* Clignotement du point */
+@keyframes blink-dot {
+  0%, 100% { opacity: 1; box-shadow: 0 0 5px #F5E642; }
+  50% { opacity: 0.3; box-shadow: none; }
+}
+
+/* Pulsation douce de la grille de fond */
+@keyframes fade-grid {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; }
 }

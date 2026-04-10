@@ -124,11 +124,27 @@ function App() {
           )}
         </div>
 
-        <div className="preview-box">
+        <div className={`preview-box ${loading ? 'is-processing' : ''}`}>
           {preview ? (
             <>
-              <img src={preview} className="preview-img" alt="preview" />
+              <img 
+                src={preview} 
+                className={`preview-img ${loading ? 'dimmed' : ''}`} 
+                alt="preview" 
+              />
               <span className="preview-tag">Preview</span>
+              
+              {/* UI du Scanner animé */}
+              {loading && (
+                <div className="scanner-ui">
+                  <div className="scanner-grid"></div>
+                  <div className="scanner-beam"></div>
+                  <div className="scanning-badge">
+                    <span className="scanning-dot" />
+                    {phase === 'ocr' ? 'Analyse OCR en cours...' : 'Structuration des données...'}
+                  </div>
+                </div>
+              )}
             </>
           ) : (
             <div className="preview-empty">
