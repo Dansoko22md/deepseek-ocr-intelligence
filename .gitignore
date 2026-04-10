@@ -1,0 +1,36 @@
+### Global
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+.env
+.env.*.local
+
+### Python / Backend
+/backend/.venv/
+/backend/__pycache__/
+/backend/.pytest_cache/
+/backend/*.pyc
+/backend/*.pyo
+/backend/*.pyd
+/backend/*.log
+/backend/.coverage
+/backend/temp_*
+/backend/*.db
+
+### Node / Frontend
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.vite/
+/frontend/.env
+/frontend/.env.*.local
+/frontend/npm-debug.log*
+/frontend/yarn-error.log*
+
+### OS / IDE
+.vscode/
+.idea/
+*.iml
+*.orig
+
